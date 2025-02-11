@@ -1,0 +1,41 @@
+#2: Basic Circuit Identities
+from qiskit import QuantumCircuit
+from qiskit.circuit import Gate
+from math import pi
+qc1 = QuantumCircuit(2)
+c = 0
+t = 0
+
+qc1.cz(c, t) #controlled-Z gate (control, target)
+qc1.draw('mpl')
+#Quantum devices can only perform C-NOT gates, so we transpile this CZ gate
+#All gates can be transpiled into c-nots & single gates
+#HXH = Z; HZH = X;
+
+#Also a CZ (H-CX-H):
+qc2 = QuantumCircuit(2)
+qc2.h(t)
+qc2.cx(c, t)
+qc2.h(t)
+
+#A CRY:
+qc3 = QuantumCircuit(2)
+qc3.sdg(t)
+qc3.cx(c, t)
+qc3.s(t)
+
+#A CH:
+qc4 = QuantumCircuit(2)
+qc4.ry(pi/4, t)
+qc4.cx(c, t)
+qc4.ry(-pi/4, t)
+
+#SWAP Gate:
+a = 0
+b = 1
+qc5 = QuantumCircuit(2)
+qc5.swap(a, b)
+
+#Also a SWAP Gate:
+qc5.cx(a, b)
+qc5.cx(b, a)
