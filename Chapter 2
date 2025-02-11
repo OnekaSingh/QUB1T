@@ -2,40 +2,63 @@
 from qiskit import QuantumCircuit
 from qiskit.circuit import Gate
 from math import pi
-qc1 = QuantumCircuit(2)
+
+qc = QuantumCircuit(2)
 c = 0
 t = 0
 
 qc1.cz(c, t) #controlled-Z gate (control, target)
-qc1.draw('mpl')
+
 #Quantum devices can only perform C-NOT gates, so we transpile this CZ gate
 #All gates can be transpiled into c-nots & single gates
 #HXH = Z; HZH = X;
 
 #Also a CZ (H-CX-H):
-qc2 = QuantumCircuit(2)
-qc2.h(t)
-qc2.cx(c, t)
-qc2.h(t)
+qc.h(t)
+qc.cx(c, t)
+qc.h(t)
 
 #A CRY:
-qc3 = QuantumCircuit(2)
-qc3.sdg(t)
-qc3.cx(c, t)
-qc3.s(t)
+qc.sdg(t)
+qc.cx(c, t)
+qc.s(t)
 
 #A CH:
-qc4 = QuantumCircuit(2)
-qc4.ry(pi/4, t)
-qc4.cx(c, t)
-qc4.ry(-pi/4, t)
+qc.ry(pi/4, t)
+qc.cx(c, t)
+qc.ry(-pi/4, t)
 
 #SWAP Gate:
 a = 0
 b = 1
-qc5 = QuantumCircuit(2)
-qc5.swap(a, b)
+qc.swap(a, b)
 
 #Also a SWAP Gate:
-qc5.cx(a, b)
-qc5.cx(b, a)
+qc.cx(b, a) #When b is 0, first gate is useless
+qc.cx(a, b)
+qc.cx(b, a) #When a is 0, third gate is useless
+
+#Controlled Rotations (generalized to any θ):
+theta = pi #this rotation value can change
+qc.ry(theta/2, t) #Rotate qubit on the y axis by theta
+qc.cx(c, t)
+qc.ry(-theta/2, t)
+qc.cx(c, t) #This circuit SWAPS the target qubit if the control is 1
+
+#Custom Gates:
+A = Gate('A', 1, [])
+B = Gate('B', 1, [])
+C = Gate('C', 1, [])
+alpha = 1 #The phase 
+qc.append(C, [t])
+qc.cz(c, t)
+qc.append(B, [t])
+qc.cz(c, t)
+qc.append(A, [t])
+qc.p(alpha, c)
+
+
+
+
+
+
