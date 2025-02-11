@@ -39,20 +39,20 @@ qc.cx(a, b)
 qc.cx(b, a) #When a is 0, third gate is useless
 
 #Controlled Rotations (generalized to any θ):
-theta = pi #this rotation value can change
+theta = pi #This rotation value can change
 qc.ry(theta/2, t) #Rotate qubit on the y axis by theta
 qc.cx(c, t)
 qc.ry(-theta/2, t)
 qc.cx(c, t) #This circuit SWAPS the target qubit if the control is 1
 
 #Custom Gates:
-A = Gate('A', 1, [])
+A = Gate('A', 1, []) #Gate(Name, number of qubits, parameters); in our case: [no parameters]
 B = Gate('B', 1, [])
 C = Gate('C', 1, [])
 alpha = 1 #The phase 
-qc.append(C, [t])
+qc.append(C, [t]) #Append adds an element to the end of a list
 qc.cz(c, t)
-qc.append(B, [t])
+qc.append(B, [t]) #Adds gate to circuit (Gate, qubit)
 qc.cz(c, t)
 qc.append(A, [t])
 qc.p(alpha, c)
