@@ -57,8 +57,16 @@ qc.cz(c, t)
 qc.append(A, [t])
 qc.p(alpha, c)
 
+#Toffoli Gate (3 qubit gate--2 c, 1 t):
+qc = QuantumCircuit(3)
+c1 = 0
+c2 = 1
+t = 2
+qc.ccx(c1, c2, t) #Performs x on target if both controls are 1
 
-
-
-
-
+#Any Control-Control-Target Rotation Gate Generalized:
+qc.cp(theta, c2, t) #Control-Phase gate = cp
+qc.cx(c1, c2)
+qc.cp(-theta, c2, t) #An opposite rotation gate = dagger gate (so this is also cp† or cpdg gate)
+qc.cx(c1, c2)
+qc.cp(theta, c1, t) #If theta = pi, this is Toffoli out of CNOTS
