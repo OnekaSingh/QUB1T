@@ -1,0 +1,32 @@
+#Chapter 2: Representing Qubit States
+
+fron qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+from qiskit_aer import AerSimulator
+from qiskit import *
+from qiskit.visualization import plot_histogram, plot_bloch_vector
+from qiskit.primitives import Sampler
+from qiskit.quantum_info import Statevector
+from math import sqrt, pi
+
+qc = QuantumCircuit(1)
+qc.initialize([1, 0]) #|0> = [1, 0, qubit]; |1> = [0, 1, qubit]
+qc.measure_all()
+
+sampler = Sampler() #Tells Qiskit how to simulate the circuit
+backend = AerSimulator() #Aer simulator backend to simulate our circuit
+result = sampler.run(qc).result()
+counts = result.quasi_dists[0]
+plot_histogram(counts)
+
+#Initializing to superposition instead of 0:
+initial_state = [1/sqrt(2), 1j/sqrt(2)] #j = i (imaginary number)
+qc.initialize(initial_state, 0) #Apply on qubit 0
+
+#Another way to do this:
+qc.initialize(0. + 1.j/sqrt(2), 1/sqrt(2) + 0.j) #The 0. is floating-point-number notation; 1.j = j; 0.j = 0 for complex-number notation
+qc.Statevector.from_instruction(qc) #computes final statevector of the circuit without running on quantum simulator (so mathematically)
+#Likewise, the .save_statevector() and .get_statevector() instructions let you see the mid-computation superposition state (which is impossible quantumly)
+
+#Bloch Vector: visual tool to map statevector onto 3D space; Statevector: mathematical equation that holds amplitudes for the |0> and |1> states of the qubit
+plot_bloch_vector([pi/2, 0, 1]) # [x, y, z] (Cartesian); [r, theta, phi] (spherical in radians); theta = inclination angle from +z direction; phi is azimuth from +x direction
+plot_bloch_vector([1, 0, 0]) #plots |0>
