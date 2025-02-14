@@ -1,1 +1,10 @@
-#Chapter 3: 
+#Chapter 3: Single Qubit Gates
+
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit.visualization import plot_histogram, plot_bloch_multivector
+from qiskit.primitives import Estimator, Sampler
+from math import pi, sqrt
+
+sampler = Sampler()
+
