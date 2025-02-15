@@ -8,3 +8,50 @@ from math import pi, sqrt
 
 sampler = Sampler()
 
+#Making Vectors:
+import numpy as np
+v0 = np.array([[1], [0]); v0 #makes |0> vector 
+v0 = np.array([[1, 0]]).T; v0 #alternatively makes |0> vector ([1, 0] row vector transposed to |0>)
+
+#Making X Matrix:
+X = np.array([[0, 1], [1, 0]]) #makes X gate matrix
+
+#Identity Matrix:
+v0 = np.array([[1, 0],[0, 1]]); 
+
+#Perform X Gate on |0>:
+X.dot(v0)
+
+#Alternative X Gate:
+qc = QuantumCircuit(1)
+qc.x(0)
+
+#Since X^2 = I:
+X.dot(X).dot(v0) #Is X^2*v0 = I*v0 = v0
+
+#Initialize State to H Gate (sets basis to X):
+qc.initialize([2**-0.5,2**-0.5],0) #here, ** = ^, so 2**-0.5 is 2^(-1/2) = 1/(2^(1/2)) = 1/(sqrt(2))
+
+#Make H Matrix:
+H = np.array([[1, 1], [1, -1]])/np.sqrt(2); H
+
+#P Gate (Phase Gate):
+qc.p(pi/4, 0) #Rotates qubit by arbitrary angle phi around Z-axis
+
+#S Gate (Special Case of P Gate--phi = pi/2):
+qc.s(0)
+qc.sdg(0) #S matrix is not invertible, so S dagger reverses the S operation
+
+#T Gate (Also Special Case of P Gate--phi = pi/4):
+qc.t(0)
+qc.tdg(0) #T matrix is also not intertible (meaning T != T^(-1))
+
+#U Gate (Universal Single Qubit Gate):
+qc.u(pi/2, 0, pi, 0) #(theta, pi, lambda, qubit) this setup changes |0> --> |+>
+
+#Pauli Rotations:
+qc.rx(pi/2, 0) #(theta, qubit) pauli rotation on x axis by pi/2
+qc.ry(pi/2, 0) #(theta, qubit) pauli rotation on y axis by pi/2
+qc.rz(pi/2, 0) #(theta, qubit) pauli rotation on z axis by pi/2
+
+
