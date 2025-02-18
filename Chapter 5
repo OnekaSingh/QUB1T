@@ -1,2 +1,71 @@
 #Chapter 5: Multiple Qubits and Entanglement
 
+from qiskit import QuantumCircuit
+from qiskit.primitives import Sampler, Estimator
+from qiskit.visualization import plot_histogram, plot_bloch_multivector
+
+qc = QuantumCircuit(3)
+for i in range(3): #another way of applying a gate to many qubits
+    qc.h(i) #creates |+++> 
+
+#To see this state:
+from qiskit.quantum_info import Statevector
+state = Statevector.from_instruction(qc)
+plot_bloch_multivector(state)
+
+#To view this in latex in a jupyter notebook:
+from qiskit.visualization import array_to_latex 
+array_to_latex(state, prefix = '\\text{Statevector} = ') #says statevector = [...]
+
+#To view this in latex not in a jupyter notebook:
+print(state)
+
+#qc = QuantumCircuit(2)
+qc.h(0)
+qc.x(1)
+from qiskit.quantum_info import Operator
+operator = Operator(qc) #gates are matricies that can be combined into a single unitary operation
+print(operator.data) #shows the unitary matrix representing the circuit as an operator
+from qiskit.visualization import array_to+latex
+array_to_latex(operator.data, prefix = '\\text{Circuit} = \n') #creates a latex matrix
+
+#Performing X on one qubit:
+qc.x(1)
+unitary = Operator(qc).data #gets unitary operator matrix of qc
+array_to_latex(unitary, prefix = '\\text{Circuit = }')
+
+#Displaying 2 versions of the CNOT Matrix:
+qc.cx(0, 1) #q0 = control, q1 = target
+qc.cx(1, 0) #q1 = control, q0 = target
+
+#The Bell States:
+qc.h(0)
+qc.cx(0, 1) #phi plus state
+
+qc.x(0)
+qc.h(0)
+qc.cx(0, 1) #phi minus state
+
+qc.h(0)
+qc.x(1)
+qc.cx(0, 1) #psi plus state
+
+qc.x(0)
+qc.h(0)
+qc.x(1)
+qc.cx(0, 1) #psi minus state
+
+final_state = Statevector.from_instruction(qc)
+array_to_latex(final_state, prefix = '\\text{Statevector = }') #output statevector
+
+result = sampler.run(qc).result()
+counts = result.quasi_dists[0]
+plot_histogram(counts) #histogram of probabilities
+
+plot_bloch_multivector(final_state) #the states can't be written seperately since they are maximally entangled
+#maximally entangled: measuring 1 state gives you other state with 100% certainty; also cannot be expressed as seperate qubit tensor products
+
+from qiskit.visualization import plot_state_qsphere
+plot_state_qsphere(final_state) #maps the complex amplitudes of the statevector onto a sphere
+
+
