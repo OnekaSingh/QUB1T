@@ -16,3 +16,11 @@ qc.h(0)
 qc.h(1)
 unitary = Operator(qc)
 
+#Phase Kickback with Controlled-T Gate:
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.x(1)
+qc.cp(pi/4, 0, 1)
+unitary = Operator(qc)
+final_state = Statevector.from_instruction(qc)
+plot_bloch_multivector(final_state) #Shows phase kickback
