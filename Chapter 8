@@ -1,1 +1,12 @@
 #Chapter 8: Proving Universality
+
+from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+theta = Parameter('theta')
+qc = QuantumCircuit(3)
+qc.cx(0, 2)
+qc.cx(0, 1)
+qc.rx(theta, 0)
+qc.cx(0, 1)
+qc.cx(0, 2)
+qc.draw('mpl') #creates a complicated unitary: U = e^{i theta/2 X tensor X tensor X}
