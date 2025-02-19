@@ -1,1 +1,22 @@
 #Chapter 9: Classical Computation on a Quantum Computer
+
+#Taking out the Garbage:
+from qiskit import QuantumCircuit, QuantumRegister
+
+input_bit = QuantumRegister(1, 'input')
+output_bit = QuantumRegister(1, 'output')
+garbage_bit = QuantumRegister(1, 'garbage') #makes registers of 3 qubits
+
+Uf = QuantumCircuit(input_bit, output_bit, garbage_bit) #creates an oracle 'black box' 
+Uf.cx(input_bit[0], output_bit[0]) 
+
+Vf = QuantumCircuit(input_bit, output_bit, garbage_bit) #creates a circuit to 'take out the trash'
+Vf.cx(input_bit[0], garbage_bit[0])
+Vf.cx(input_bit[0], output_bit[0])
+
+final_output_bit = QuantumRegister(1, 'final-output') #copies output from output_bit to final_output_bit
+copy = QuantumCircuit(output_bit, final_output_bit) #creates the copying gate that does this copying
+copy.cx(output_bit, final_output_bit)
+
+qc = Uf.compose(Vf.inverse()) #combines Uf and Vf's inverse into one circuit
+(Vf.inverse().compose(copy).compose(Vf)).draw('mpl') #creates a circuit with Vf^{-1}, copy circuit, Vf (the garbage cancels -- aka 'taking out the garbage')
