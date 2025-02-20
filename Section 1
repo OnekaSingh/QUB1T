@@ -1,3 +1,29 @@
 #Section 1: Perform Operations on Quantum Circuits
 
-#(a): Construct multi-qubit quantum registers
+#(a) -- Construct multi-qubit quantum registers:
+
+  from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, Aer, Execute
+  
+  qreg = QuantumRegister(3, name = 'qreg') #makes a quantum register with 3 bits
+  creg = ClassicalRegister(3 name = 'creg') #makes a classical register with 3 bits
+  qc = QuantumCircuit(qreg, creg) #makes a quantum circuit with 6 registers for 3 qubits and 3 bits
+  
+  qc.h(qreg[0]) #hadamard on qubit 1
+  qc.cx(qreg[0], qreg[1]) #cnot c = 0, t = 1
+  qc.cx(qreg[1], qreg[2]) #cnot c = 1, t = 2
+  qc.measure(qreg, creg) #measures quantum register to classical register
+  
+  print(qc.draw()) #in a python enviornment use print(.draw()), in jupyter use .draw()
+  
+  simulator = Aer.get_backend('qasm_simulator') #uses qasm simulator aer
+  job = execute(qc, simulator, shots = 1024) #runs qc on simulator 1024 times
+  result = job.result() #gets result of execution
+
+  counts = result.get_counts(qc) #gets data from qc for each run
+  print('Measurement Results: ', counts) #displays counts
+
+#(b) -- Measure quantum circuits in classical registers:
+
+  from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer, Execute
+  
+  
