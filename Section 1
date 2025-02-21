@@ -2,28 +2,59 @@
 
 #(a) -- Construct multi-qubit quantum registers:
 
-  from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit, Aer, Execute
+  from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
   
-  qreg = QuantumRegister(3, name = 'qreg') #makes a quantum register with 3 bits
-  creg = ClassicalRegister(3 name = 'creg') #makes a classical register with 3 bits
+  qreg = QuantumRegister(1, name = 'qreg') #makes a quantum register with 3 bits
+  creg = ClassicalRegister(1 name = 'creg') #makes a classical register with 3 bits
   qc = QuantumCircuit(qreg, creg) #makes a quantum circuit with 6 registers for 3 qubits and 3 bits
-  
-  qc.h(qreg[0]) #hadamard on qubit 1
-  qc.cx(qreg[0], qreg[1]) #cnot c = 0, t = 1
-  qc.cx(qreg[1], qreg[2]) #cnot c = 1, t = 2
-  qc.measure(qreg, creg) #measures quantum register to classical register
-  
-  print(qc.draw()) #in a python enviornment use print(.draw()), in jupyter use .draw()
-  
-  simulator = Aer.get_backend('qasm_simulator') #uses qasm simulator aer
-  job = execute(qc, simulator, shots = 1024) #runs qc on simulator 1024 times
-  result = job.result() #gets result of execution
-
-  counts = result.get_counts(qc) #gets data from qc for each run
-  print('Measurement Results: ', counts) #displays counts
 
 #(b) -- Measure quantum circuits in classical registers:
 
-  from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer, Execute
-  
+  from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+
+  qreg = QuantumRegister(2) #way 1
+  creg = ClassicalRegister(2)
+  qc = QuantumCircuit(qreg, creg) #measures qreg --> creg
+
+  qc = QuantumCircuit(2, 2) #way 2
+  qc.measure([0, 1], [0, 1]) #measure qreg 0 --> creg 0 and qreg 1 --> creg 1
+
+  qc.measure_all() #way 3, measures all
+
+  qc.measure(0, 0) #way 4, measures only qreg 0 to creg 0
+
+#(c) -- Use single qubit gates
+
+  from qiskit import QuantumCircuit, QuantumRegister
+
+  qreg = QuantumRegister(1)
+  qc = QuantumCircuit(qreg)
+
+  qc.h(0) #pi/2 rotation on x-axis (has no hdg because it is its own hermitian)
+  qc.i(0) #identity gate
+  qc.id(0) #also identity gate
+
+  qc.sx(0) #preforms sqrt{x} gate
+  qc.sxdg(0) #performs -sqrt{x} gate
+
+  qc.p(pi, 0) #phase gate (lambda, qubit)
+  qc.s(0) #theta = pi/2 rotation on z-axis
+  qc.sdg(0) #theta = -pi/2 rotation on z-axis
+  qc.t(0)  #theta = pi/4 rotation on z-axis
+  qc.tdg(0) #theta = -pi/4 rotation on z-axis
+
+  qc.x(0) #pauli x gate, rotates on x-axis by pi
+  qc.y(0) #pauli y gate, rotates on y-axis by pi
+  qc.z(0) #pauli z gate, rotates on z-axis by pi
+  qc.r(pi, pi, 0) #rotation on (theta, phi, qubit)
+  qc.rdg(pi, pi, 0) #rotation on (-theta, -pi, qubit)
+
+  qc.rx(0) #rotational x gate, rotates on x-axis by theta
+  qc.ry(0) #rotational y gate, rotates on y-axis by lambda
+  qc.rz(0) #rotational z gate, rotates on z-axis by phi
+
+  qc.u1(pi, 0) #rotation on z-axis (theta, qubit) 1 euler angle
+  qc.u2(pi, pi, 0) #rotation on z-axis + x-axis (theta, phi, qubit) 2 euler angles
+  qc.u3(pi, pi, pi, 0) #rotation on z-axis + x-axis + y-axis (theta, phi, lambda, qubit) 3 euler angles
+  qc.u(pi, pi, pi, 0) #same as u3 gate
   
