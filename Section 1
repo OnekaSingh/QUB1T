@@ -117,3 +117,37 @@
     qc.fredkin() #same as cswap gate
     qc.mcmt([0, 1], [2, 3]) #multi-control, multi-target gate (theta, [qubits])
     qc.ms(pi, [0, 1]) #Mølmer–Sørensen gate that entangles two qubits in superpositon theta (theta, [qubits])Pauli-Z effect.
+
+#(e) -- Use barrier operations
+
+    from qiskit import QuantumCircuit
+    qc = QuantumCircuit(3)
+    qc.h(0)
+    qc.cx(0, 1)
+
+    qc.barrier() #puts barrier on all qubits; barrier seperates gates visually and keeps from combining in transpilation
+    qc.barrier(0) #puts barrier on qubit 1
+    qc.barrier(0, 1) #puts barrier on n qubits -- here it is qubits 1 and 2
+
+    qc.x(0)
+    qc.measure_all()
+
+#(f) -- Return the circuit depth
+
+    from qiskit import QuantumCircuit
+    qc = QuantumCircuit(5)
+
+    qc.h(0) #depth of 1: 1 gate is performed
+    qc.cx(0, 1) #depth of 2: waits for h(0), then performs cx gate
+    qc.cx(1, 2) #depth of 3: waits for h(0), then cx(0, 1), then performs cx gate
+    qc.cx(3, 4) #depth of 2: waits for h(0), then performs cx gate
+
+    qc.depth() #depth = longest waiting path for any qubit register; depth tells us how long circuit execution will take
+
+#(g) -- Extend quantum circuits
+
+    from qiskit import QuantumCircuit
+    qc = QuantumCircuit(2)
+
+    qc.append()
+
