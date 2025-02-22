@@ -117,4 +117,3 @@
     qc.fredkin() #same as cswap gate
     qc.mcmt([0, 1], [2, 3]) #multi-control, multi-target gate (theta, [qubits])
     qc.ms(pi, [0, 1]) #Mølmer–Sørensen gate that entangles two qubits in superpositon theta (theta, [qubits])Pauli-Z effect.
-The second qubit (target) has a Pauli-X effect.
