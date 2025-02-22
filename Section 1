@@ -1,60 +1,120 @@
 #Section 1: Perform Operations on Quantum Circuits
 
 #(a) -- Construct multi-qubit quantum registers:
-
-  from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
   
-  qreg = QuantumRegister(1, name = 'qreg') #makes a quantum register with 3 bits
-  creg = ClassicalRegister(1 name = 'creg') #makes a classical register with 3 bits
-  qc = QuantumCircuit(qreg, creg) #makes a quantum circuit with 6 registers for 3 qubits and 3 bits
-
+    from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+    
+    qreg = QuantumRegister(1, name = 'qreg') #makes a quantum register with 3 bits
+    creg = ClassicalRegister(1 name = 'creg') #makes a classical register with 3 bits
+    qc = QuantumCircuit(qreg, creg) #makes a quantum circuit with 6 registers for 3 qubits and 3 bits
+  
 #(b) -- Measure quantum circuits in classical registers:
-
-  from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
-
-  qreg = QuantumRegister(2) #way 1
-  creg = ClassicalRegister(2)
-  qc = QuantumCircuit(qreg, creg) #measures qreg --> creg
-
-  qc = QuantumCircuit(2, 2) #way 2
-  qc.measure([0, 1], [0, 1]) #measure qreg 0 --> creg 0 and qreg 1 --> creg 1
-
-  qc.measure_all() #way 3, measures all
-
-  qc.measure(0, 0) #way 4, measures only qreg 0 to creg 0
+  
+    from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+  
+    qreg = QuantumRegister(2) #way 1
+    creg = ClassicalRegister(2)
+    qc = QuantumCircuit(qreg, creg) #measures qreg --> creg
+  
+    qc = QuantumCircuit(2, 2) #way 2
+    qc.measure([0, 1], [0, 1]) #measure qreg 0 --> creg 0 and qreg 1 --> creg 1
+  
+    qc.measure_all() #way 3, measures all
+  
+    qc.measure(0, 0) #way 4, measures only qreg 0 to creg 0
 
 #(c) -- Use single qubit gates
 
-  from qiskit import QuantumCircuit, QuantumRegister
-
-  qreg = QuantumRegister(1)
-  qc = QuantumCircuit(qreg)
-
-  qc.h(0) #pi/2 rotation on x-axis (has no hdg because it is its own hermitian)
-  qc.i(0) #identity gate
-  qc.id(0) #also identity gate
-
-  qc.sx(0) #preforms sqrt{x} gate
-  qc.sxdg(0) #performs -sqrt{x} gate
-
-  qc.p(pi, 0) #phase gate (lambda, qubit)
-  qc.s(0) #theta = pi/2 rotation on z-axis
-  qc.sdg(0) #theta = -pi/2 rotation on z-axis
-  qc.t(0)  #theta = pi/4 rotation on z-axis
-  qc.tdg(0) #theta = -pi/4 rotation on z-axis
-
-  qc.x(0) #pauli x gate, rotates on x-axis by pi
-  qc.y(0) #pauli y gate, rotates on y-axis by pi
-  qc.z(0) #pauli z gate, rotates on z-axis by pi
-  qc.r(pi, pi, 0) #rotation on (theta, phi, qubit)
-  qc.rdg(pi, pi, 0) #rotation on (-theta, -pi, qubit)
-
-  qc.rx(0) #rotational x gate, rotates on x-axis by theta
-  qc.ry(0) #rotational y gate, rotates on y-axis by lambda
-  qc.rz(0) #rotational z gate, rotates on z-axis by phi
-
-  qc.u1(pi, 0) #rotation on z-axis (theta, qubit) 1 euler angle
-  qc.u2(pi, pi, 0) #rotation on z-axis + x-axis (theta, phi, qubit) 2 euler angles
-  qc.u3(pi, pi, pi, 0) #rotation on z-axis + x-axis + y-axis (theta, phi, lambda, qubit) 3 euler angles
-  qc.u(pi, pi, pi, 0) #same as u3 gate
+    from qiskit import QuantumCircuit, QuantumRegister
   
+    qreg = QuantumRegister(1)
+    qc = QuantumCircuit(qreg)
+  
+    qc.h(0) #pi/2 rotation on x-axis (has no hdg because it is its own hermitian)
+    qc.i(0) #identity gate
+    qc.id(0) #also identity gate
+  
+    qc.sx(0) #preforms sqrt{x} gate
+    qc.sxdg(0) #performs -sqrt{x} gate
+  
+    qc.p(pi, 0) #phase gate (lambda, qubit)
+    qc.s(0) #theta = pi/2 rotation on z-axis
+    qc.sdg(0) #theta = -pi/2 rotation on z-axis
+    qc.t(0)  #theta = pi/4 rotation on z-axis
+    qc.tdg(0) #theta = -pi/4 rotation on z-axis
+  
+    qc.x(0) #pauli x gate, rotates on x-axis by pi
+    qc.y(0) #pauli y gate, rotates on y-axis by pi
+    qc.z(0) #pauli z gate, rotates on z-axis by pi
+    qc.r(pi, pi, 0) #rotation on (theta, phi, qubit)
+    qc.rdg(pi, pi, 0) #rotation on (-theta, -pi, qubit)
+  
+    qc.rx(0) #rotational x gate, rotates on x-axis by theta
+    qc.ry(0) #rotational y gate, rotates on y-axis by lambda
+    qc.rz(0) #rotational z gate, rotates on z-axis by phi
+    qc.rv(pi, pi, pi) #rotation around arbitrary axis v (vx, vy, vz, qubit)
+  
+    qc.u1(pi, 0) #rotation on z-axis (theta, qubit) 1 euler angle
+    qc.u2(pi, pi, 0) #rotation on z-axis + x-axis (theta, phi, qubit) 2 euler angles
+    qc.u3(pi, pi, pi, 0) #rotation on z-axis + x-axis + y-axis (theta, phi, lambda, qubit) 3 euler angles
+    qc.u(pi, pi, pi, 0) #same as u3 gate
+
+#(d) -- Use multi-qubit gates
+
+    from qiskit import QuantumCircuit
+    qc = QuantumCircuit(5)
+    
+    qc.ch(0, 1) #controlled-H gate (control, target)
+    qc.iswap(0, 1) #swaps two qubits' states and adds i phase to off diagonal elements
+    qc.swap(0, 1) #swaps two qubits' states
+    qc.cswap(0, 1, 2) #swaps targets 1 and 2 (control, target 1, target 2)
+
+    qc.csx(0, 1) #controlled sx gate
+    qc.c3sx(0, 1, 2, 3) #3 controlled sx gate with (control, control, control, target)
+    qc.csxdg(0, 1) #controlled sxdg gate
+
+    qc.cp(pi, 0, 1) #controlled-Phase gate (theta, control, target)
+    qc.mcp(pi, [0, 1, 2], 3) #multi-control phase gate (phase angle, [control qubits], target)
+
+    qc.cs(0, 1) #controlled s gate
+    qc.csdg(0, 1) #controlled sdg gate
+
+    qc.cx(0, 1) #controlled pauli x gate -- called CNOT
+    qc.ecr(0, 1) #optimized CNOT gate for superconducting qubits
+    qc.dcx(0, 1) #double CNOT -- 2 back-to-back alternate CNOTs 
+    qc.ccx(0, 1, 2) #2 controlled pauli x gate (control, control, target)
+    qc.toffoli(0, 1, 2) #same as ccx gate
+    qc.c3x(0, 1, 2, 3) #3 controlled pauli x gate (control, control, control, target)
+    qc.c4x(0, 1, 2, 3, 4) #4 controlled pauli x gate (control, control, control, control, target)
+    qc.mcx([0, 1], [2, 3]) #multi controlled pauli x gate ([control qubits], [target qubits])
+
+    qc.cy(0, 1) #controlled pauli y gate
+    qc.ryy(pi, 0, 1) #applies ry gate to 2 qubits (theta, qubit 1, qubit 2)
+
+    qc.cz(0, 1) #controlled pauli z gate
+    qc.ccz(0, 1, 2) #2 controlled pauli z gate (control, control, target)
+
+    qc.crx(pi, 0, 1) #controlled rx gate (theta, control, target)
+    qc.mcrx(pi, [0, 1], [2, 3]) #multi-control, multi-target rx gate (theta, [controls], [targets])
+    qc.rccx(0, 1, 2)
+    qc.rc3x() #4 controlled rx gate (control, control, control, target)
+    qc.rxx(pi, 0, 1) #applies rx gate to 2 qubits (theta, qubit 1, qubit 2)
+    qc.rzx(pi, 0, 1) #applies z to control, and theta to target if control is 1 (theta, control, target)
+
+    qc.cry(pi, 0, 1) #controlled ry gate (lambda, control, target)
+    qc.mcry(pi, [0, 1], [2, 3]) #multi-control, multi-target ry gate (lambda, [controls], [targets])
+    qc.ryy(pi, 0, 1) #applies ry gate to 2 qubits (theta, qubit 1, qubit 2)
+
+    qc.crz(pi, 0, 1) #controlled rz gate (phi, control, target)
+    qc.mcrz(pi, [0, 1], [2, 3]) #controlled rz gate (phi, [controls], [targets])
+    qc.rzz(pi, 0, 1) #applies rz gate to 2 qubits (theta, qubit 1, qubit 2)
+
+    qc.cu1(pi, 0, 1) #controlled u1 gate (theta, control, target)
+    qc.cu3(pi, pi, pi, 0, 1) #controlled u3 gate (theta, phi, lambda, control, target)
+    qc.cu(pi, pi, pi, pi, 0, 1) #controlled u gate + global phase (theta, phi, lambda, phase, control, target)
+
+    qc.ccx(0, 1, 2) #3 qubit gate with (control, control, target)
+    qc.fredkin() #same as cswap gate
+    qc.mcmt([0, 1], [2, 3]) #multi-control, multi-target gate (theta, [qubits])
+    qc.ms(pi, [0, 1]) #Mølmer–Sørensen gate that entangles two qubits in superpositon theta (theta, [qubits])Pauli-Z effect.
+The second qubit (target) has a Pauli-X effect.
